@@ -66,7 +66,7 @@ startup
     });
 
     settings.Add("itemGroup", true, "Items");
-    settings.CurrentDefaultParent = "itemGroup"
+    settings.CurrentDefaultParent = "itemGroup";
     vars.AddItemSplit(103, "diningCarKey", true, "Dining Car Key");
     vars.AddItemSplit(125, "icePick", true, "Ice Pick");
     vars.AddItemSplit(82, "panelOpener", true, "Panel Opener");
@@ -122,8 +122,9 @@ startup
     vars.AddItemSplit(130, "angelWings", true, "Angel Wings");
     vars.AddItemSplit(131, "blackWing", true, "Black Wing");
 
-    settings.Add("eventsGroup", true, "Events");
-    settings.CurrentDefaultParent = "eventsGroup"
+	settings.CurrentDefaultParent = null;
+    settings.Add("eventsGroup", true, "Events", null);
+    settings.CurrentDefaultParent = "eventsGroup";
     vars.AddSplit("train", true, "Train");
     vars.AddSplit("clock", true, "Clock");
     vars.AddSplit("rebeccaSaved", true, "Rebecca Saved");
@@ -144,8 +145,9 @@ startup
     vars.AddSplit("factory", true, "Factory");
 
     // Application information
+	settings.CurrentDefaultParent = null;
     settings.Add("infoGroup", false, "Info");
-    settings.CurrentDefaultParent = "infoGroup"
+    settings.CurrentDefaultParent = "infoGroup";
     settings.Add("infoGroup1", false, "Resident Evil/BioHazard 0 HD released by Kapdap");
     settings.Add("infoGroup2", false, "Originally developed by 0_yami_0 & CursedToast");
     settings.Add("infoGroup3", false, "Website: https://github.com/kapdap/re-0-hd-autosplitter");
