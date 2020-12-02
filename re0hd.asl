@@ -23,7 +23,8 @@ state("re0hd")
     int cutsceneId: "re0hd.exe", 0x9CE008, 0x20;
     byte roomIdCur: "re0hd.exe", 0x9CE070, 0x1FD4;
     byte roomIdNext: "re0hd.exe", 0x9CDEB8, 0x20;
-    byte menuId: "re0hd.exe", 0xA2F414, 0xd74, 0x14, 0x8, 0x34, 0xc, 0x47c;
+    //byte menuId: "re0hd.exe", 0xA2F414, 0xd74, 0x14, 0x8, 0x34, 0xc, 0x47c;
+    byte menuId: "re0hd.exe", 0xA31688, 0x68, 0x44, 0x6D0, 0x77C, 0x4BC;
 }
 
 startup
@@ -220,7 +221,8 @@ init
 
 start
 {
-    return (old.menuId == 17 || old.menuId == 46) && current.menuId == 0 ||
+    return (old.menuId == 45 || old.menuId == 46 || old.menuId == 47 ||
+            old.menuId == 48 || old.menuId == 17) && current.menuId == 20 ||
            (old.menuId == 27 && current.menuId == 28);
 }
 
