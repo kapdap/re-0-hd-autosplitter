@@ -4,11 +4,11 @@ Auto Splitter for Resident Evil/Biohazard 0 HD for PC. This Auto Splitter
 allows you to create splits for certian item pickups and events and also
 compare against in game time.
 
-This script is a modification of 0_yumi_0's Resident Evil 0 HD Auto Splitter.
+This script is a rewrite of 0_yumi_0's Resident Evil 0 HD Auto Splitter.
 https://www.speedrun.com/tools/Resident_Evil_0_HD_-_Auto_Splitter_bz6k6.zip
 https://www.speedrun.com/re0/resources
 
-Modifications:
+Changes:
 - Custom split names
 - Undo/skip splits
 - Output split log

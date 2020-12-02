@@ -3,11 +3,11 @@
 // https://github.com/kapdap/re-0-hd-autosplitter
 //
 // Description:
-// This script is a modification of 0_yumi_0's Resident Evil 0 HD Auto Splitter.
+// This script is a rewrite of 0_yumi_0's Resident Evil 0 HD Auto Splitter.
 // https://www.speedrun.com/tools/Resident_Evil_0_HD_-_Auto_Splitter_bz6k6.zip
 // https://www.speedrun.com/re0/resources
 //
-// Modifications:
+// Changes:
 // - Custom split names
 // - Undo/skip splits
 // - Output split log
