@@ -23,8 +23,10 @@ state("re0hd")
     int cutsceneId: "re0hd.exe", 0x9CE008, 0x20;
     byte roomIdCur: "re0hd.exe", 0x9CE070, 0x1FD4;
     byte roomIdNext: "re0hd.exe", 0x9CDEB8, 0x20;
-    //byte menuId: "re0hd.exe", 0xA2F414, 0xd74, 0x14, 0x8, 0x34, 0xc, 0x47c;
-    byte menuId: "re0hd.exe", 0xA31688, 0x68, 0x44, 0x6D0, 0x77C, 0x4BC;
+
+    // Couldn't find a menuId pointer that always worked... uglyness here
+    byte menuId1: "re0hd.exe", 0xA2F414, 0xD74, 0x14, 0x8, 0x34, 0xC, 0x47C;
+    byte menuId2: "re0hd.exe", 0xA31688, 0x68, 0x44, 0x6D0, 0x77C, 0x4BC;
 }
 
 startup
@@ -166,6 +168,7 @@ startup
 
 init
 {
+    // Log splits
     vars.lastSplit = String.Empty;
     vars.LogSplit = (Action<string>)((text) => {
         vars.lastSplit = text;
@@ -221,9 +224,15 @@ init
 
 start
 {
-    return (old.menuId == 45 || old.menuId == 46 || old.menuId == 47 ||
-            old.menuId == 48 || old.menuId == 17) && current.menuId == 20 ||
-           (old.menuId == 27 && current.menuId == 28);
+    // Quick and dirty hack
+    if (current.menuId1 != 0)
+        return (old.menuId1 == 45 || old.menuId1 == 46 || old.menuId1 == 47 ||
+                old.menuId1 == 48 || old.menuId1 == 17) && current.menuId1 == 20 ||
+               (old.menuId1 == 27 && current.menuId1 == 28);
+    else
+        return (old.menuId2 == 45 || old.menuId2 == 46 || old.menuId2 == 47 ||
+                old.menuId2 == 48 || old.menuId2 == 17) && current.menuId2 == 20 ||
+               (old.menuId2 == 27 && current.menuId2 == 28);
 }
 
 update
@@ -301,7 +310,7 @@ split
         return vars.UpdateSplit("queenLeechStart");
 
     // TODO: Find pointer for the "End Screen" and don't force the split name
-    if(current.menuId == 21 && timer.CurrentSplit.Name == "Queen Leech - End")
+    if((current.menuId1 == 21 || current.menuId2 == 21) && timer.CurrentSplit.Name == "Queen Leech - End")
         return vars.UpdateSplit("queenLeechEnd");
 }
 
