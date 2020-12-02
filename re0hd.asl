@@ -9,7 +9,8 @@
 //
 // Modifications:
 // - Custom split names
-// - Ability to undo splits
+// - Undo/skip splits
+// - Output split log
 // - Refactored code
 //
 // Acknowledgements:
@@ -27,6 +28,9 @@ state("re0hd")
 
 startup
 {
+    vars.logPath = "Components/re0hd.txt";
+    vars.inventory = null;
+
     // Split tracker
     vars.splits = new Dictionary<string, bool>();
 
@@ -51,18 +55,14 @@ startup
     vars.ResetSplits = (Action) (() => {
         List<string> keys = new List<string>(vars.splits.Keys);
         foreach(string key in keys)
-        {
             vars.splits[key] = false;
-        }
     });
 
     // Resets inventory split tracker
     vars.ResetItemSplits = (Action) (() => {
         List<byte> keys = new List<byte>(vars.itemSplits.Keys);
         foreach(byte key in keys)
-        {
             vars.itemSplits[key] = false;
-        }
     });
 
     settings.Add("itemGroup", true, "Items");
@@ -122,9 +122,10 @@ startup
     vars.AddItemSplit(130, "angelWings", true, "Angel Wings");
     vars.AddItemSplit(131, "blackWing", true, "Black Wing");
 
-	settings.CurrentDefaultParent = null;
-    settings.Add("eventsGroup", true, "Events", null);
+    settings.CurrentDefaultParent = null;
+    settings.Add("eventsGroup", true, "Events");
     settings.CurrentDefaultParent = "eventsGroup";
+    vars.AddSplit("scorpion", true, "Scorpion");
     vars.AddSplit("train", true, "Train");
     vars.AddSplit("clock", true, "Clock");
     vars.AddSplit("rebeccaSaved", true, "Rebecca Saved");
@@ -134,7 +135,6 @@ startup
     vars.AddSplit("queenLeechStart", true, "Queen Leech - Start");
     vars.AddSplit("queenLeechEnd", true, "Queen Leech - End");
 
-    vars.AddSplit("scorpion", true, "Scorpion");
     vars.AddSplit("centipede", true, "Centipede");
     vars.AddSplit("center1", true, "Center 1");
     vars.AddSplit("underground", true, "Underground");
@@ -144,23 +144,45 @@ startup
     vars.AddSplit("crates", true, "Crates");
     vars.AddSplit("factory", true, "Factory");
 
+    // Splitter Options
+    settings.CurrentDefaultParent = null;
+    settings.Add("optionsGroup", false, "Options");
+    settings.CurrentDefaultParent = "optionsGroup";
+    settings.Add("logSplits", false, "Log Splits");
+    settings.SetToolTip("logSplits", "Log is saved to LiveSplit/Components/re0hd.txt");
+    settings.Add("debugSplits", false, "Debug Splits");
+    settings.SetToolTip("debugSplits", "Use DbgView application to view split log");
+
     // Application information
-	settings.CurrentDefaultParent = null;
+    settings.CurrentDefaultParent = null;
     settings.Add("infoGroup", false, "Info");
     settings.CurrentDefaultParent = "infoGroup";
     settings.Add("infoGroup1", false, "Resident Evil/BioHazard 0 HD released by Kapdap");
     settings.Add("infoGroup2", false, "Originally developed by 0_yami_0 & CursedToast");
     settings.Add("infoGroup3", false, "Website: https://github.com/kapdap/re-0-hd-autosplitter");
-    settings.Add("infoGroup4", false, "Last Update: 2020-11-30T11:00:00+1200");
+    settings.Add("infoGroup4", false, "Last Update: 2020-12-02T14:10:00+1200");
 }
 
 init
 {
+    vars.lastSplit = String.Empty;
+    vars.LogSplit = (Action<string>)((text) => {
+        vars.lastSplit = text;
+
+        string log = timer.CurrentTime[timer.CurrentTimingMethod] + ": " + text;
+
+        if (settings["logSplits"])
+            File.AppendAllText(vars.logPath, log + System.Environment.NewLine);
+
+        if (settings["debugSplits"])
+            print("re0hd split: " + log);
+    });
+
     // Update split status
     vars.UpdateSplit = (Func<string, bool>)((split) => {
         if (!vars.splits[split])
         {
-            print("Split: " + split);
+            vars.LogSplit(split);
             vars.splits[split] = true;
             return settings[split];
         }
@@ -172,7 +194,7 @@ init
     vars.UpdateItemSplit = (Func<byte, bool>)((id) => {
         if (!vars.itemSplits[id])
         {
-            print("Item Split: " + vars.itemSplits[id] + " (" + id.ToString() + ")");
+            vars.LogSplit(vars.itemIndex[id] + " (" + id.ToString() + ")");
             vars.itemSplits[id] = true;
             return settings[vars.itemIndex[id]];
         }
@@ -182,7 +204,6 @@ init
 
     // Read inventory for both characters
     vars.inventory = new MemoryWatcherList();
-
     for (int j = 0; j < 2; ++j)
     {
         int offset = j == 0 ? 0x24 : 0x64; // Rebecca : Billy
@@ -205,12 +226,13 @@ start
 
 update
 {
-    vars.inventory.UpdateAll(game);
+    if (vars.inventory != null)
+        vars.inventory.UpdateAll(game);
 
     if (timer.CurrentPhase == TimerPhase.NotRunning)
     {
-        vars.ResetItemSplits();
         vars.ResetSplits();
+        vars.ResetItemSplits();
     }
 }
 
@@ -276,8 +298,9 @@ split
     if (current.roomIdCur == 164 && current.roomIdNext == 173)
         return vars.UpdateSplit("queenLeechStart");
 
-    //if (current.menuId == 21)
-        //return vars.UpdateSplit("queenLeechEnd");
+    // TODO: Find pointer for the "End Screen" and don't force the split name
+    if(current.menuId == 21 && timer.CurrentSplit.Name == "Queen Leech - End")
+        return vars.UpdateSplit("queenLeechEnd");
 }
 
 gameTime
