@@ -1,4 +1,4 @@
-// Resident Evil/BioHazard 0 HD Auto Splitter
+// Resident Evil/Biohazard 0 HD Auto Splitter
 // Released by Kapdap 2020/11/30
 // https://github.com/kapdap/re-0-hd-autosplitter
 //
@@ -114,21 +114,22 @@ startup
     vars.AddItemSplit(95, "hiPowerBattery", true, "Hi-Power Battery");
     vars.AddItemSplit(102, "shaftKey", true, "Shaft Key");
 
-    vars.AddItemSplit(57, "goldRing", true, "Gold Ring");
-    vars.AddItemSplit(65, "trainKey1", true, "Train Key 1");
-    vars.AddItemSplit(76, "keycard", true, "Keycard");
-    vars.AddItemSplit(78, "lockerKey", true, "Locker Key");
-    vars.AddItemSplit(105, "lighter", true, "Lighter");
-    vars.AddItemSplit(107, "conductorsKey", true, "Conductor's Key");
-    vars.AddItemSplit(119, "duraluminCase", true, "Duralumin Case");
-    vars.AddItemSplit(128, "industrialWater", true, "Industrial Water");
-    vars.AddItemSplit(130, "angelWings", true, "Angel Wings");
-    vars.AddItemSplit(131, "blackWing", true, "Black Wing");
+    settings.Add("itemGroupExtras", false, "Extras");
+    settings.CurrentDefaultParent = "itemGroupExtras";
+    vars.AddItemSplit(57, "goldRing", false, "Gold Ring");
+    vars.AddItemSplit(65, "trainKey1", false, "Train Key 1");
+    vars.AddItemSplit(76, "keycard", false, "Keycard");
+    vars.AddItemSplit(78, "lockerKey", false, "Locker Key");
+    vars.AddItemSplit(105, "lighter", false, "Lighter");
+    vars.AddItemSplit(107, "conductorsKey", false, "Conductor's Key");
+    vars.AddItemSplit(119, "duraluminCase", false, "Duralumin Case");
+    vars.AddItemSplit(128, "industrialWater", false, "Industrial Water");
+    vars.AddItemSplit(130, "angelWings", false, "Angel Wings");
+    vars.AddItemSplit(131, "blackWing", false, "Black Wing");
 
     settings.CurrentDefaultParent = null;
     settings.Add("eventsGroup", true, "Events");
     settings.CurrentDefaultParent = "eventsGroup";
-    vars.AddSplit("scorpion", true, "Scorpion");
     vars.AddSplit("train", true, "Train");
     vars.AddSplit("clock", true, "Clock");
     vars.AddSplit("rebeccaSaved", true, "Rebecca Saved");
@@ -138,14 +139,17 @@ startup
     vars.AddSplit("queenLeechStart", true, "Queen Leech - Start");
     vars.AddSplit("queenLeechEnd", true, "Queen Leech - End");
 
-    vars.AddSplit("centipede", true, "Centipede");
-    vars.AddSplit("center1", true, "Center 1");
-    vars.AddSplit("underground", true, "Underground");
-    vars.AddSplit("center2", true, "Center 2");
-    vars.AddSplit("noMoreHunters", true, "No More Hunters");
-    vars.AddSplit("laboratory", true, "Laboratory");
-    vars.AddSplit("crates", true, "Crates");
-    vars.AddSplit("factory", true, "Factory");
+    settings.Add("eventsGroupExtras", false, "Extras");
+    settings.CurrentDefaultParent = "eventsGroupExtras";
+    vars.AddSplit("scorpion", false, "Scorpion");
+    vars.AddSplit("centipede", false, "Centipede");
+    vars.AddSplit("center1", false, "Center 1");
+    vars.AddSplit("underground", false, "Underground");
+    vars.AddSplit("center2", false, "Center 2");
+    vars.AddSplit("noMoreHunters", false, "No More Hunters");
+    vars.AddSplit("laboratory", false, "Laboratory");
+    vars.AddSplit("crates", false, "Crates");
+    vars.AddSplit("factory", false, "Factory");
 
     // Splitter Options
     settings.CurrentDefaultParent = null;
@@ -160,10 +164,10 @@ startup
     settings.CurrentDefaultParent = null;
     settings.Add("infoGroup", false, "Info");
     settings.CurrentDefaultParent = "infoGroup";
-    settings.Add("infoGroup1", false, "Resident Evil/BioHazard 0 HD released by Kapdap");
+    settings.Add("infoGroup1", false, "Resident Evil/Biohazard 0 HD released by Kapdap");
     settings.Add("infoGroup2", false, "Originally developed by 0_yami_0 & CursedToast");
     settings.Add("infoGroup3", false, "Website: https://github.com/kapdap/re-0-hd-autosplitter");
-    settings.Add("infoGroup4", false, "Last Update: 2020-12-02T14:10:00+1200");
+    settings.Add("infoGroup4", false, "Last Update: 2020-12-02T21:30:00+1200");
 }
 
 init
