@@ -31,6 +31,7 @@ state("re0hd")
 
 startup
 {
+    // Initalise variables
     vars.logPath = "Components/re0hd.txt";
     vars.inventory = null;
 
@@ -136,8 +137,9 @@ startup
     vars.AddSplit("bat", true, "Bat");
     vars.AddSplit("tyrant1", true, "Tyrant 1");
     vars.AddSplit("tyrant2", true, "Tyrant 2");
-    vars.AddSplit("queenLeechStart", true, "Queen Leech - Start");
-    vars.AddSplit("queenLeechEnd", true, "Queen Leech - End");
+    vars.AddSplit("queenLeech", true, "Queen Leech");
+    vars.AddSplit("endGame", true, "End Game");
+    settings.SetToolTip("endGame", "WARNING: This split must be called End Game");
 
     settings.Add("eventsGroupExtras", false, "Extras");
     settings.CurrentDefaultParent = "eventsGroupExtras";
@@ -156,7 +158,7 @@ startup
     settings.Add("optionsGroup", false, "Options");
     settings.CurrentDefaultParent = "optionsGroup";
     settings.Add("logSplits", false, "Log Splits");
-    settings.SetToolTip("logSplits", "Log is saved to LiveSplit/Components/re0hd.txt");
+    settings.SetToolTip("logSplits", "Split log is saved to LiveSplit/" + vars.logPath);
     settings.Add("debugSplits", false, "Debug Splits");
     settings.SetToolTip("debugSplits", "Use DbgView application to view split log");
 
@@ -164,10 +166,10 @@ startup
     settings.CurrentDefaultParent = null;
     settings.Add("infoGroup", false, "Info");
     settings.CurrentDefaultParent = "infoGroup";
-    settings.Add("infoGroup1", false, "Resident Evil/Biohazard 0 HD released by Kapdap");
+    settings.Add("infoGroup1", false, "Resident Evil/Biohazard 0 HD Auto Splitter released by Kapdap");
     settings.Add("infoGroup2", false, "Originally developed by 0_yami_0 & CursedToast");
     settings.Add("infoGroup3", false, "Website: https://github.com/kapdap/re-0-hd-autosplitter");
-    settings.Add("infoGroup4", false, "Last Update: 2020-12-02T21:30:00+1200");
+    settings.Add("infoGroup4", false, "Last Update: 2020-12-03T16:30:00+1200");
 }
 
 init
@@ -311,11 +313,11 @@ split
         return vars.UpdateSplit("factory");
 
     if (current.roomIdCur == 164 && current.roomIdNext == 173)
-        return vars.UpdateSplit("queenLeechStart");
+        return vars.UpdateSplit("queenLeech");
 
     // TODO: Find pointer for the "End Screen" and don't force the split name
-    if((current.menuId1 == 21 || current.menuId2 == 21) && timer.CurrentSplit.Name == "Queen Leech - End")
-        return vars.UpdateSplit("queenLeechEnd");
+    if((current.menuId1 == 21 || current.menuId2 == 21) && timer.CurrentSplit.Name == "End Game")
+        return vars.UpdateSplit("endGame");
 }
 
 gameTime
