@@ -316,7 +316,7 @@ split
         return vars.UpdateSplit("queenLeech");
 
     // TODO: Find pointer for the "End Screen" and don't force the split name
-    if((current.menuId1 == 21 || current.menuId2 == 21) && timer.CurrentSplit.Name == "End Game")
+    if((current.menuId1 == 21 || current.menuId2 == 21) && (timer.CurrentSplit.Name == "End Game" || timer.CurrentSplit.Name == "Queen Leech - End"))
         return vars.UpdateSplit("endGame");
 }
 
